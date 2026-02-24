@@ -1,0 +1,38 @@
+openapi: 3.0.0
+info:
+  title: Profile Service API
+  description: API for aggregating user and product data
+  version: 1.0.0
+servers:
+  - url: http://localhost:3002
+paths:
+  /profile/{userId}:
+    get:
+      summary: Get user profile and products
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: ID of the user to fetch
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response with user and products
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    type: object
+                    additionalProperties: true
+                  products:
+                    type: array
+                    items:
+                      type: object
+                      additionalProperties: true
+        '404':
+          description: User not found
+        '500':
+          description: Internal server error
