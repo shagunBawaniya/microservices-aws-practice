@@ -1,0 +1,65 @@
+const path = require('path');
+// load .env from project root
+require('dotenv').config({ path: path.resolve(__dirname, '..', '..', '.env') });
+
+const http = require('http');
+const app = require('../app');
+const sequelize = require('../config/database'); // adjust if your sequelize instance lives elsewhere
+
+const port = normalizePort(process.env.PORT || '3009');
+app.set('port', port);
+
+function startServer() {
+  const server = http.createServer(app);
+
+  server.listen(port, () => {
+    console.log(`Product service listening on port ${port}`);
+  });
+
+  server.on('error', onError);
+  server.on('listening', onListening);
+
+  process.on('unhandledRejection', (reason) => {
+    console.error('Unhandled Rejection:', reason);
+  });
+}
+
+// try DB connection first
+sequelize.authenticate()
+  .then(() => {
+    console.log('Database connection has been established successfully.');
+    // optional: sequelize.sync(); // uncomment if you want auto-sync
+    startServer();
+  })
+  .catch((err) => {
+    console.error('Unable to connect to the database:', err);
+    process.exit(1);
+  });
+
+function normalizePort(val) {
+  const portInt = parseInt(val, 10);
+  if (isNaN(portInt)) return val;
+  if (portInt >= 0) return portInt;
+  return false;
+}
+function onError(error) {
+  if (error.syscall !== 'listen') throw error;
+  const bind = typeof port === 'string' ? `Pipe ${port}` : `Port ${port}`;
+  switch (error.code) {
+    case 'EACCES':
+      console.error(`${bind} requires elevated privileges`);
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(`${bind} is already in use`);
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+function onListening() {
+  const addr = this.address ? this.address() : null;
+  const bind = addr ? `port ${addr.port}` : `listening`;
+  //console.log(`Listening on ${bind}`);
+}
