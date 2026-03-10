@@ -18,7 +18,8 @@ services:
       retries: 5
 
   user-service:
-    build: ./user-service
+    #build: ./user-service //image locally build
+    image: shagunbawaniya19/user-service:1.0
     container_name: user-service-container
     env_file:
       - ./user-service/.env
@@ -31,7 +32,7 @@ services:
       - micro-net
 
   product-service:
-    build: ./product-service
+    image: shagunbawaniya19/product-service:1.0
     container_name: product-service-container
     env_file:
       - ./product-service/.env
@@ -44,7 +45,7 @@ services:
       - micro-net
 
   profile-service:
-    build: ./profile-service
+    image: shagunbawaniya19/profile-service:1.0
     container_name: profile-service-container
     env_file:
       - ./profile-service/.env
@@ -57,7 +58,7 @@ services:
       - micro-net
 
   api-gateway:
-    build: ./api-gateway
+    image: shagunbawaniya19/api-gateway:1.0
     container_name: api-gateway-container
     env_file:
       - ./api-gateway/.env
