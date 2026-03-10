@@ -48,7 +48,8 @@ router.post('/', async (req, res) => {
  *       404:
  *         description: Not found
  */
-router.get('/:id', async (req, res) => {
+router.get('/:id', async function(req, res, next) {
+  console.log('[user-service][route] GET /users/:id ->', req.params)
   try {
     const user = await User.findByPk(req.params.id);
     if (!user) return res.status(404).json({ error: 'User not found' });

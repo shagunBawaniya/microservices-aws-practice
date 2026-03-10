@@ -41,7 +41,7 @@ const productController = require('../controllers/productController');
  *       201:
  *         description: Product created
  */
-router.post('/products', productController.create);
+router.post('/', productController.create);
 
 /**
  * @swagger
@@ -59,7 +59,7 @@ router.post('/products', productController.create);
  *               items:
  *                 $ref: '#/components/schemas/Product'
  */
-router.get('/products', productController.list);
+router.get('/', productController.list);
 
 /**
  * @swagger
@@ -79,6 +79,6 @@ router.get('/products', productController.list);
  *       404:
  *         description: Product not found
  */
-router.get('/products/:id', productController.getById);
+router.get('/:id', productController.getById);
 
 module.exports = router;
