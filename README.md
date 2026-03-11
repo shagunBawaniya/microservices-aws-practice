@@ -17,6 +17,25 @@ The system is divided into multiple independent services:
 
 Each service runs independently and is containerized using **Docker**.
 
+## Architecture Diagram
+
+Client Request  
+↓  
+API Gateway  
+↓  
+
+-----------------------------------------
+
+User Service | Product Service | Profile Service  
+
+(Node.js) | (Node.js) | (Node.js)
+
+-----------------------------------------
+
+↓  
+
+Docker Containers (Docker Compose)
+
 ---
 
 ## Tech Stack
